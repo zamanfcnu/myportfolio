@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zaman Shabeer — Fashion × Portfolio</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050505;color:#f0f0f0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0a0a0a}
+::-webkit-scrollbar-thumb{background:#222;border-radius:100px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:#050505ee;backdrop-filter:blur(20px);border-bottom:1px solid #111;padding:0 20px}
+.nav-inner{display:flex;justify-content:space-between;align-items:center;height:56px}
+.logo{display:flex;align-items:center;gap:8px;cursor:pointer}
+.logo-icon{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#e94560,#533483);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
+.logo-text{font-size:15px;font-weight:700}
+.menu-btn{background:none;border:none;color:#999;font-size:20px;cursor:pointer;padding:8px}
+.menu{padding-bottom:16px;display:none}
+.menu.open{display:block}
+.menu-item{padding:12px 8px;cursor:pointer;font-size:14px;color:#ccc;border-bottom:1px solid #111;transition:color 0.2s}
+.menu-item:hover{color:#e94560}
+.menu-item.active{color:#e94560;font-weight:700}
+.menu-item.sub{padding-left:24px;color:#777}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+
+/* UTILITIES */
+.gradient-text{background:linear-gradient(135deg,#e94560,#533483);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.btn-primary{padding:14px 28px;border-radius:100px;border:none;cursor:pointer;font-size:14px;font-weight:700;background:linear-gradient(135deg,#e94560,#533483);color:#fff;transition:opacity 0.2s}
+.btn-primary:hover{opacity:0.9}
+.btn-outline{padding:14px 28px;border-radius:100px;border:1px solid #333;cursor:pointer;font-size:14px;font-weight:600;background:none;color:#ccc;transition:border-color 0.2s}
+.btn-outline:hover{border-color:#e94560;color:#e94560}
+.card{background:#0a0a0a;border-radius:14px;border:1px solid #151515;transition:border-color 0.2s}
+.card:hover{border-color:#222}
+.label{font-size:11px;color:#e94560;letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.section-label{font-size:11px;color:#555;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px}
+.tag{font-size:10px;padding:3px 10px;border-radius:100px;display:inline-block}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fade-up{animation:fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards}
+.spinner{width:40px;height:40px;margin:0 auto 16px;border-radius:50%;border:3px solid #1a1a1a;border-top-color:#e94560;animation:spin 0.8s linear infinite}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.flex-wrap{display:flex;flex-wrap:wrap;gap:6px}
+
+/* SPECIFIC */
+.hero{min-height:80vh;display:flex;flex-direction:column;justify-content:center;padding:60px 24px 40px;position:relative;overflow:hidden}
+.hero-glow-1{position:absolute;top:-80px;right:-80px;width:350px;height:350px;background:radial-gradient(circle,#e9456012 0%,transparent 70%);border-radius:50%}
+.hero-glow-2{position:absolute;bottom:-40px;left:-40px;width:250px;height:250px;background:radial-gradient(circle,#53348312 0%,transparent 70%);border-radius:50%}
+.progress-bar{height:3px;background:#111;border-radius:100px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#e94560,#533483);border-radius:100px;transition:width 0.3s}
+.trend-bar{height:3px;background:#151515;border-radius:100px;overflow:hidden}
+.skill-bar{height:4px;background:#151515;border-radius:100px;overflow:hidden;margin-top:5px}
+.skill-fill{height:100%;background:linear-gradient(90deg,#e9456088,#533483);border-radius:100px;transition:width 1s}
+.case-section{margin-top:18px}
+.case-label{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+
+@media(min-width:640px){
+  .hero h1{font-size:56px!important}
+  .grid-2{gap:12px}
+  .content-wrap{max-width:600px;margin:0 auto}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo" onclick="go('home')">
+      <div class="logo-icon">Z</div>
+      <span class="logo-text"> Shabeer</span>
+    </div>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+  </div>
+  <div class="menu" id="menu">
+    <div class="menu-item" onclick="go('home')">Home</div>
+    <div class="menu-item" onclick="go('projects')">Projects</div>
+    <div class="menu-item sub" onclick="go('stylist')">↳ AI Stylist (Live)</div>
+    <div class="menu-item sub" onclick="go('trends')">↳ Trend Pulse (Live)</div>
+    <div class="menu-item" onclick="go('about')">About Me</div>
+    <div class="menu-item" onclick="go('contact')">Contact</div>
+  </div>
+</nav>
+
+<!-- ==================== HOME ==================== -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+    <div class="fade-up" style="position:relative;z-index:1">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+        <div style="width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite"></div>
+        <span style="font-size:11px;color:#22c55e;letter-spacing:3px;text-transform:uppercase;font-weight:500">Available for opportunities</span>
+      </div>
+      <h1 style="font-size:44px;font-weight:800;line-height:1.05;margin-bottom:14px;letter-spacing:-2px">
+        Zaman Shabeer<br><span class="gradient-text">Fashion × AI</span>
+      </h1>
+      <p style="font-size:16px;color:#777;line-height:1.7;margin-bottom:28px;max-width:440px">
+        Fashion communication student building AI-powered tools for the fashion industry. I combine cultural intuition with artificial intelligence to create tools that feel personal and think smart.
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-primary" onclick="go('projects')">View My Work</button>
+        <button class="btn-outline" onclick="go('contact')">Get In Touch</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:10px;padding:0 24px 32px">
+    <div class="card" style="flex:1;padding:16px 12px;text-align:center">
+      <div style="font-size:20px;font-weight:800;color:#e94560">2</div>
+      <div style="font-size:10px;color:#555;letter-spacing:1px;text-transform:uppercase;margin-top:2px">AI Projects</div>
+    </div>
+    <div class="card" style="flex:1;padding:16px 12px;text-align:center">
+      <div style="font-size:20px;font-weight:800;color:#e94560">Python</div>
+      <div style="font-size:10px;color:#555;letter-spacing:1px;text-transform:uppercase;margin-top:2px">Core Stack</div>
+    </div>
+    <div class="card" style="flex:1;padding:16px 12px;text-align:center">
+      <div style="font-size:20px;font-weight:800;color:#e94560">2026</div>
+      <div style="font-size:10px;color:#555;letter-spacing:1px;text-transform:uppercase;margin-top:2px">Graduate</div>
+    </div>
+  </div>
+
+  <div style="padding:0 24px 40px">
+    <p class="section-label">Featured Projects</p>
+    <div class="card" style="padding:20px;margin-bottom:10px;cursor:pointer" onclick="go('stylist')">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <span class="label">AI / Chatbot</span>
+          <h3 style="font-size:18px;font-weight:700;margin:4px 0 6px">AI Personal Stylist</h3>
+          <p style="font-size:13px;color:#777;line-height:1.5">AI-powered outfit recommendations based on body type, style & budget</p>
+        </div>
+        <span style="font-size:32px">👗</span>
+      </div>
+      <div style="margin-top:12px;color:#e94560;font-size:13px;font-weight:600">Try Live Demo →</div>
+    </div>
+    <div class="card" style="padding:20px;cursor:pointer" onclick="go('trends')">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <span class="label">Data / Analytics</span>
+          <h3 style="font-size:18px;font-weight:700;margin:4px 0 6px">Trend Pulse</h3>
+          <p style="font-size:13px;color:#777;line-height:1.5">Real-time fashion trend tracking dashboard with AI analysis</p>
+        </div>
+        <span style="font-size:32px">📊</span>
+      </div>
+      <div style="margin-top:12px;color:#e94560;font-size:13px;font-weight:600">Try Live Demo →</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PROJECTS ==================== -->
+<div class="page" id="page-projects">
+  <div style="padding:32px 20px 48px">
+    <span class="label">Portfolio</span>
+    <h1 style="font-size:28px;font-weight:800;margin:6px 0 6px;letter-spacing:-0.5px">My Projects</h1>
+    <p style="color:#666;font-size:14px;margin-bottom:28px">Each project includes a live working demo + full case study</p>
+
+    <!-- Project 1 -->
+    <div class="card" style="margin-bottom:16px;overflow:hidden">
+      <div style="padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+          <div>
+            <span class="label">AI / Chatbot</span>
+            <h2 style="font-size:20px;font-weight:700;margin:4px 0 8px">AI Personal Stylist</h2>
+            <div class="flex-wrap">
+              <span class="tag" style="background:#e9456015;color:#e94560">Python</span>
+              <span class="tag" style="background:#e9456015;color:#e94560">Claude API</span>
+              <span class="tag" style="background:#e9456015;color:#e94560">Prompt Engineering</span>
+            </div>
+          </div>
+          <span style="font-size:36px">👗</span>
+        </div>
+        <button class="btn-primary" style="width:100%;margin-bottom:8px;padding:12px;font-size:13px" onclick="go('stylist')">▶ Try Live Demo</button>
+        <button class="btn-outline" style="width:100%;padding:12px;font-size:13px" onclick="toggleCase(1)">Read Case Study ▼</button>
+      </div>
+      <div id="case-1" style="display:none;padding:0 20px 24px;border-top:1px solid #111">
+        <div class="case-section"><div class="case-label"><span>❓</span><span class="label">The Problem</span></div><p style="font-size:13px;color:#999;line-height:1.7">People struggle to put together outfits matching their body type, style, and budget — especially for specific occasions. Personal stylists cost £100+/hour and aren't accessible to most people.</p></div>
+        <div class="case-section"><div class="case-label"><span>💡</span><span class="label">My Solution</span></div><p style="font-size:13px;color:#999;line-height:1.7">An AI-powered styling assistant that asks 6 targeted questions about user preferences and generates a complete, personalized outfit with specific pieces, color palettes, accessories, and shopping recommendations.</p></div>
+        <div class="case-section"><div class="case-label"><span>⚙️</span><span class="label">Process</span></div><p style="font-size:13px;color:#999;line-height:1.7">Researched how personal stylists make decisions → identified key variables (body type, occasion, budget, season, style) → designed conversational UI flow → engineered detailed prompts for Claude API → built structured JSON output → iterated on prompt quality and trend-awareness.</p></div>
+        <div class="case-section"><div class="case-label"><span>📈</span><span class="label">Results</span></div><p style="font-size:13px;color:#999;line-height:1.7">Generates personalized outfits in under 5 seconds. Recommendations account for current fashion trends, body-type-specific advice, and budget constraints. Users can regenerate for different options.</p></div>
+        <div class="case-section"><div class="case-label"><span>🧠</span><span class="label">What I Learned</span></div><p style="font-size:13px;color:#999;line-height:1.7">Prompt engineering is the most impactful skill when working with AI. Understanding fashion deeply made me better at directing AI than a developer without fashion knowledge.</p></div>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="card" style="overflow:hidden">
+      <div style="padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+          <div>
+            <span style="font-size:11px;color:#0f3460;letter-spacing:2px;text-transform:uppercase;font-weight:600">Data Analytics / AI</span>
+            <h2 style="font-size:20px;font-weight:700;margin:4px 0 8px">Trend Pulse</h2>
+            <div class="flex-wrap">
+              <span class="tag" style="background:#0f346015;color:#0f3460">Python</span>
+              <span class="tag" style="background:#0f346015;color:#0f3460">Data Analysis</span>
+              <span class="tag" style="background:#0f346015;color:#0f3460">Claude API</span>
+            </div>
+          </div>
+          <span style="font-size:36px">📊</span>
+        </div>
+        <button style="width:100%;margin-bottom:8px;padding:12px;font-size:13px;border-radius:100px;border:none;cursor:pointer;font-weight:700;background:linear-gradient(135deg,#0f3460,#533483);color:#fff" onclick="go('trends')">▶ Try Live Demo</button>
+        <button class="btn-outline" style="width:100%;padding:12px;font-size:13px" onclick="toggleCase(2)">Read Case Study ▼</button>
+      </div>
+      <div id="case-2" style="display:none;padding:0 20px 24px;border-top:1px solid #111">
+        <div class="case-section"><div class="case-label"><span>❓</span><span class="label">The Problem</span></div><p style="font-size:13px;color:#999;line-height:1.7">Fashion professionals need to track trend movements for buying, design, and content decisions. Current tools are either too expensive (WGSN costs £5,000+/year) or too surface-level.</p></div>
+        <div class="case-section"><div class="case-label"><span>💡</span><span class="label">My Solution</span></div><p style="font-size:13px;color:#999;line-height:1.7">A real-time trend dashboard scoring trends 0-100, tracking momentum, and providing AI-powered analysis with investment recommendations for each trend.</p></div>
+        <div class="case-section"><div class="case-label"><span>⚙️</span><span class="label">Process</span></div><p style="font-size:13px;color:#999;line-height:1.7">Identified impactful trends through social media and runway analysis → created scoring system based on social volume, search interest, runway presence → built filterable dashboard → integrated Claude API for on-demand INVEST/SKIP recommendations.</p></div>
+        <div class="case-section"><div class="case-label"><span>📈</span><span class="label">Results</span></div><p style="font-size:13px;color:#999;line-height:1.7">Tracks 12+ major trends across 5 categories. AI analysis provides specific advice: how to wear each trend, leading brands, and predicted peak dates.</p></div>
+        <div class="case-section"><div class="case-label"><span>🧠</span><span class="label">What I Learned</span></div><p style="font-size:13px;color:#999;line-height:1.7">Data without context is useless. My fashion communication background lets me interpret data in ways pure data analysts can't — I understand WHY trends emerge, not just THAT they're trending.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== AI STYLIST ==================== -->
+<div class="page" id="page-stylist">
+  <div style="padding:20px 20px 12px;border-bottom:1px solid #111">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <h2 style="font-size:18px;font-weight:700">👗 AI Personal Stylist</h2>
+        <p style="font-size:11px;color:#555;margin-top:2px;letter-spacing:1px;text-transform:uppercase">Live Demo</p>
+      </div>
+      <button class="btn-outline" style="padding:6px 14px;font-size:11px;border-radius:100px" onclick="resetStylist()">Reset</button>
+    </div>
+    <div class="progress-bar" style="margin-top:12px"><div class="progress-fill" id="stylist-progress" style="width:0%"></div></div>
+  </div>
+  <div id="stylist-content"></div>
+</div>
+
+<!-- ==================== TREND PULSE ==================== -->
+<div class="page" id="page-trends">
+  <div style="padding:20px 20px 12px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px">
+      <div style="width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite"></div>
+      <span style="font-size:10px;color:#22c55e;letter-spacing:2px;text-transform:uppercase;font-weight:600">Live</span>
+    </div>
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:2px">📊 Trend Pulse Dashboard</h2>
+    <p style="font-size:11px;color:#555;letter-spacing:1px;text-transform:uppercase">Real-time fashion trend tracking + AI analysis</p>
+  </div>
+  <div id="trend-filters" style="padding:8px 20px">
+    <div class="flex-wrap" id="cat-filters" style="margin-bottom:8px"></div>
+    <div style="display:flex;gap:6px">
+      <button class="sort-btn active" onclick="setSort('score')" id="sort-score" style="padding:5px 10px;border-radius:8px;border:none;cursor:pointer;font-size:11px;background:#111;color:#ccc">By Score</button>
+      <button class="sort-btn" onclick="setSort('momentum')" id="sort-momentum" style="padding:5px 10px;border-radius:8px;border:none;cursor:pointer;font-size:11px;background:transparent;color:#444">By Momentum</button>
+    </div>
+  </div>
+  <div id="trend-cards" style="padding:8px 20px 32px"></div>
+</div>
+
+<!-- ==================== ABOUT ==================== -->
+<div class="page" id="page-about">
+  <div style="padding:32px 20px 48px">
+    <span class="label">About</span>
+    <h1 style="font-size:28px;font-weight:800;margin:6px 0 20px;letter-spacing:-0.5px">The Person Behind The Projects</h1>
+
+    <div class="card" style="padding:24px 20px;margin-bottom:24px;text-align:center">
+      <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#e94560,#533483);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px">S</div>
+      <p style="font-size:15px;color:#bbb;line-height:1.8">I'm a fashion communication student who discovered that the most exciting future in fashion isn't on the runway — it's in the code behind it.</p>
+      <p style="font-size:15px;color:#bbb;line-height:1.8;margin-top:14px">I don't just use AI — I direct it. My fashion knowledge gives me an edge that pure technologists don't have: I understand context, culture, and taste.</p>
+    </div>
+
+    <div class="card" style="padding:20px;margin-bottom:24px" id="skills-container"></div>
+
+    <div class="card" style="padding:20px">
+      <p class="label" style="margin-bottom:14px">My Philosophy</p>
+      <div style="margin-bottom:16px">
+        <p style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">Why fashion + AI?</p>
+        <p style="font-size:13px;color:#888;line-height:1.6">Fashion is becoming a data and technology industry. Brands need people who understand BOTH the cultural side and the technical side. I'm building that bridge.</p>
+      </div>
+      <div style="margin-bottom:16px">
+        <p style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">Don't you need a CS degree?</p>
+        <p style="font-size:13px;color:#888;line-height:1.6">No. I use AI as my coding partner. My value isn't writing code from memory — it's knowing WHAT to build, WHO it's for, and WHY it matters.</p>
+      </div>
+      <div>
+        <p style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px">Where do you see this going?</p>
+        <p style="font-size:13px;color:#888;line-height:1.6">Every fashion brand will have AI tools within 5 years. I want to be the person who builds and directs those tools.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CONTACT ==================== -->
+<div class="page" id="page-contact">
+  <div style="padding:32px 20px 48px">
+    <span class="label">Contact</span>
+    <h1 style="font-size:28px;font-weight:800;margin:6px 0 24px;letter-spacing:-0.5px">Let's Work Together</h1>
+    <div class="card" style="padding:32px 24px;text-align:center;margin-bottom:20px">
+      <div style="font-size:48px;margin-bottom:14px">💌</div>
+      <h3 style="font-size:20px;font-weight:700;margin-bottom:8px">Open For Opportunities</h3>
+      <p style="color:#777;font-size:14px;margin-bottom:20px;line-height:1.6">Freelance projects, internships, full-time roles in fashion-tech, collaborations, and speaking opportunities.</p>
+      <div style="padding:14px 28px;border-radius:100px;background:linear-gradient(135deg,#e94560,#533483);color:#fff;font-size:14px;font-weight:600;display:inline-block">zamanrai5464@gmail.com</div>
+    </div>
+    <div class="grid-2">
+      <div class="card" style="padding:16px;cursor:pointer"><div style="font-size:22px;margin-bottom:6px">🔗</div><div style="font-size:13px;font-weight:600">LinkedIn</div><div style="font-size:11px;color:#555">Connect</div></div>
+      <div class="card" style="padding:16px;cursor:pointer"><div style="font-size:22px;margin-bottom:6px">💻</div><div style="font-size:13px;font-weight:600">GitHub</div><div style="font-size:11px;color:#555">View code</div></div>
+      <div class="card" style="padding:16px;cursor:pointer"><div style="font-size:22px;margin-bottom:6px">📸</div><div style="font-size:13px;font-weight:600">Instagram</div><div style="font-size:11px;color:#555">Fashion × AI</div></div>
+      <div class="card" style="padding:16px;cursor:pointer"><div style="font-size:22px;margin-bottom:6px">🐦</div><div style="font-size:13px;font-weight:600">Twitter / X</div><div style="font-size:11px;color:#555">Thoughts</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== NAVIGATION ====================
+let currentPage = 'home';
+function go(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  currentPage = page;
+  document.getElementById('menu').classList.remove('open');
+  document.querySelector('.menu-btn').textContent = '☰';
+  window.scrollTo(0, 0);
+  if (page === 'stylist' && stylistStep === 0 && !stylistResult) renderStylist();
+  if (page === 'trends') renderTrends();
+  if (page === 'about') renderSkills();
+}
+function toggleMenu() {
+  const m = document.getElementById('menu');
+  const b = document.querySelector('.menu-btn');
+  m.classList.toggle('open');
+  b.textContent = m.classList.contains('open') ? '✕' : '☰';
+}
+function toggleCase(n) {
+  const el = document.getElementById('case-' + n);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+// ==================== SKILLS ====================
+const skills = [
+  { name: "AI Prompt Engineering", level: 90 },
+  { name: "Fashion Strategy", level: 95 },
+  { name: "Python", level: 70 },
+  { name: "Data Analysis", level: 75 },
+  { name: "Creative Direction", level: 90 },
+  { name: "Communication", level: 95 }
+];
+function renderSkills() {
+  const c = document.getElementById('skills-container');
+  if (c.innerHTML) return;
+  c.innerHTML = '<p class="label" style="margin-bottom:16px">Skills</p>' +
+    skills.map(s => `
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+          <span style="font-size:13px;font-weight:600;color:#ccc">${s.name}</span>
+          <span style="font-size:11px;color:#555">${s.level}%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" style="width:${s.level}%"></div></div>
+      </div>
+    `).join('');
+}
+
+// ==================== AI STYLIST ====================
+let stylistStep = 0;
+let stylistForm = { gender: null, occasion: null, style: null, body: null, season: null, budget: null, extra: '' };
+let stylistResult = null;
+const stylistSteps = [
+  { key: 'gender', q: 'Who are we styling?', opts: ['Women\'s', 'Men\'s', 'Unisex'] },
+  { key: 'occasion', q: 'What\'s the occasion?', opts: ['Casual Day Out','Office / Work','Date Night','Party / Club','Wedding Guest','Job Interview','Beach / Vacation','Street Style'] },
+  { key: 'style', q: 'What\'s your vibe?', opts: ['Minimalist','Streetwear','Classic / Preppy','Bohemian','Edgy / Grunge','Romantic','Athleisure','Y2K / Retro'] },
+  { key: 'body', q: 'Body type?', opts: ['Hourglass','Pear','Apple','Rectangle','Inverted Triangle','Petite','Tall / Lean','Plus Size'] },
+  { key: 'season', q: 'Season?', opts: ['Spring','Summer','Autumn','Winter'] },
+  { key: 'budget', q: 'Budget?', opts: ['Thrift / Budget','Mid-Range (£30–100)','Premium (£100–300)','Luxury (£300+)'] }
+];
+
+function resetStylist() {
+  stylistStep = 0; stylistForm = { gender:null,occasion:null,style:null,body:null,season:null,budget:null,extra:'' }; stylistResult = null;
+  renderStylist();
+}
+
+function pickStylist(key, val) {
+  stylistForm[key] = val;
+  stylistStep++;
+  document.getElementById('stylist-progress').style.width = ((stylistStep / stylistSteps.length) * 100) + '%';
+  renderStylist();
+}
+
+function renderStylist() {
+  const c = document.getElementById('stylist-content');
+  if (stylistResult) { renderStylistResult(); return; }
+  if (stylistStep === 0) {
+    c.innerHTML = `<div style="padding:48px 24px;text-align:center">
+      <div style="font-size:48px;margin-bottom:14px">✨</div>
+      <h2 style="font-size:24px;font-weight:800;margin-bottom:10px">Get Styled By AI</h2>
+      <p style="color:#666;font-size:14px;margin-bottom:24px">6 questions → personalized outfit in seconds</p>
+      <button class="btn-primary" onclick="stylistStep=1;renderStylist()">Start Styling</button>
+    </div>`;
+    return;
+  }
+  if (stylistStep <= stylistSteps.length) {
+    const s = stylistSteps[stylistStep - 1];
+    c.innerHTML = `<div style="padding:24px 20px">
+      <span class="label">STEP ${stylistStep}/${stylistSteps.length}</span>
+      <h2 style="font-size:20px;font-weight:700;margin:6px 0 18px">${s.q}</h2>
+      <div class="grid-2">${s.opts.map(o => `<button onclick="pickStylist('${s.key}','${o.replace(/'/g, "\\'")}')" style="padding:13px 12px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;text-align:left;border:1px solid #1a1a1a;background:#0a0a0a;color:#bbb">${o}</button>`).join('')}</div>
+      ${stylistStep > 1 ? `<button onclick="stylistStep--;renderStylist()" style="margin-top:12px;background:none;border:none;color:#444;font-size:12px;cursor:pointer">← Back</button>` : ''}
+    </div>`;
+    return;
+  }
+  // Extra + Generate
+  c.innerHTML = `<div style="padding:24px 20px">
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:6px">Any extra details?</h2>
+    <textarea id="stylist-extra" placeholder="Optional preferences..." style="width:100%;min-height:70px;padding:12px;border-radius:10px;border:1px solid #1a1a1a;background:#0a0a0a;color:#eee;font-size:13px;resize:vertical;font-family:inherit;box-sizing:border-box;outline:none">${stylistForm.extra}</textarea>
+    <button class="btn-primary" style="width:100%;margin-top:12px;padding:14px;font-size:14px" onclick="generateOutfit()">Generate Outfit ✨</button>
+    <button onclick="stylistStep=${stylistSteps.length};renderStylist()" style="display:block;margin:8px auto 0;background:none;border:none;color:#444;font-size:12px;cursor:pointer">← Back</button>
+  </div>`;
+}
+
+async function generateOutfit() {
+  const extra = document.getElementById('stylist-extra');
+  if (extra) stylistForm.extra = extra.value;
+  const c = document.getElementById('stylist-content');
+  c.innerHTML = `<div style="padding:60px 24px;text-align:center"><div class="spinner"></div><p style="font-size:14px;color:#888">Styling your look...</p></div>`;
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:1000,
+        messages:[{role:'user',content:`You are a world-class fashion stylist. Create a personalized outfit:
+Gender:${stylistForm.gender}|Occasion:${stylistForm.occasion}|Style:${stylistForm.style}|Body:${stylistForm.body}|Season:${stylistForm.season}|Budget:${stylistForm.budget}
+${stylistForm.extra?'Notes:'+stylistForm.extra:''}
+Respond ONLY valid JSON no markdown:
+{"title":"Outfit name","vibe":"5-8 word mood","pieces":[{"item":"Name","detail":"Details","tip":"Tip"}],"accessories":["1","2","3"],"colorPalette":["#hex1","#hex2","#hex3","#hex4"],"avoidList":["1","2"],"proTip":"Secret","whereToShop":["1","2","3"]}
+4-5 pieces. Specific, creative, trendy. Tailored to body type and budget.`}]
+      })
+    });
+    const data = await r.json();
+    const txt = data.content.map(x=>x.text||'').join('');
+    stylistResult = JSON.parse(txt.replace(/```json|```/g,'').trim());
+    renderStylistResult();
+  } catch(e) {
+    c.innerHTML = `<div style="padding:40px 20px;text-align:center"><p style="color:#e94560;margin-bottom:16px">Something went wrong</p><button class="btn-primary" style="padding:10px 24px;font-size:13px" onclick="generateOutfit()">Try Again</button></div>`;
+  }
+}
+
+function renderStylistResult() {
+  const r = stylistResult, c = document.getElementById('stylist-content');
+  c.innerHTML = `
+    <div style="padding:24px 20px 40px">
+      <div style="text-align:center;margin-bottom:20px">
+        <span class="label">Your Look</span>
+        <h2 style="font-size:22px;font-weight:800;margin:4px 0">${r.title}</h2>
+        <p style="color:#666;font-size:13px;font-style:italic">${r.vibe}</p>
+      </div>
+      ${r.colorPalette?`<div style="display:flex;gap:8px;justify-content:center;margin-bottom:18px">${r.colorPalette.map(cl=>`<div style="width:44px;height:44px;border-radius:10px;background:${cl};border:2px solid #1a1a1a"></div>`).join('')}</div>`:''}
+      ${(r.pieces||[]).map((p,i)=>`<div style="background:#0a0a0a;border-radius:12px;padding:14px;margin-bottom:8px;border:1px solid #151515;border-left:3px solid #e94560">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:3px"><span style="color:#e9456066;margin-right:6px">0${i+1}</span>${p.item}</div>
+        <p style="font-size:12px;color:#888;margin-bottom:4px;line-height:1.5">${p.detail}</p>
+        <div style="font-size:11px;color:#e94560">💡 ${p.tip}</div>
+      </div>`).join('')}
+      ${r.accessories?`<div class="flex-wrap" style="margin:12px 0">${r.accessories.map(a=>`<span style="padding:5px 12px;border-radius:100px;background:#0f346015;border:1px solid #0f346033;color:#7eaacc;font-size:12px">${a}</span>`).join('')}</div>`:''}
+      ${r.avoidList?`<div class="flex-wrap" style="margin-bottom:12px">${r.avoidList.map(a=>`<span style="padding:5px 12px;border-radius:100px;background:#e9456010;border:1px solid #e9456033;color:#e94560;font-size:12px">✕ ${a}</span>`).join('')}</div>`:''}
+      ${r.proTip?`<div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:12px;padding:14px;border:1px solid #e9456033;margin-bottom:12px"><p style="font-size:10px;color:#e94560;letter-spacing:2px;margin-bottom:4px;text-transform:uppercase;font-weight:600">Pro Tip</p><p style="font-size:13px;color:#ccc;line-height:1.5">${r.proTip}</p></div>`:''}
+      ${r.whereToShop?`<div class="flex-wrap" style="margin-bottom:16px">${r.whereToShop.map(s=>`<span style="padding:5px 12px;border-radius:100px;background:#53348315;border:1px solid #53348333;color:#b088cc;font-size:12px">🛍 ${s}</span>`).join('')}</div>`:''}
+      <div style="display:flex;gap:8px">
+        <button class="btn-primary" style="flex:1;padding:12px;font-size:13px" onclick="stylistResult=null;generateOutfit()">Regenerate ✨</button>
+        <button class="btn-outline" style="flex:1;padding:12px;font-size:13px" onclick="resetStylist()">New Look</button>
+      </div>
+    </div>`;
+}
+
+// ==================== TREND PULSE ====================
+const trends = [
+  {name:"Quiet Luxury",current:92,last:78,dir:"up",cat:"Aesthetic",color:"#e94560",desc:"Understated elegance, no visible logos, premium fabrics. Think The Row, Loro Piana."},
+  {name:"Cherry Red",current:88,last:61,dir:"up",cat:"Color",color:"#dc2626",desc:"Bold cherry and tomato reds dominating runways and street style."},
+  {name:"Sheer Fabrics",current:85,last:72,dir:"up",cat:"Fabric",color:"#8b5cf6",desc:"Transparent and semi-sheer layers from Saint Laurent to Nensi Dojaka."},
+  {name:"Barrel Leg Jeans",current:82,last:58,dir:"up",cat:"Silhouette",color:"#0ea5e9",desc:"Curved, voluminous denim replacing skinny jeans."},
+  {name:"Burgundy",current:80,last:65,dir:"up",cat:"Color",color:"#7f1d1d",desc:"Deep burgundy across all categories — the new neutral."},
+  {name:"Leopard Print",current:76,last:82,dir:"down",cat:"Pattern",color:"#d97706",desc:"Still strong but cooling. Moving from statement to accent."},
+  {name:"Oversized Tailoring",current:74,last:71,dir:"stable",cat:"Silhouette",color:"#6366f1",desc:"Slouchy blazers, wide trousers. Power meets comfort."},
+  {name:"Coquette / Bow",current:71,last:89,dir:"down",cat:"Aesthetic",color:"#ec4899",desc:"Ultra-feminine bow trend fading toward structured romanticism."},
+  {name:"Metallic Silver",current:68,last:55,dir:"up",cat:"Color",color:"#94a3b8",desc:"Futuristic silver rising across accessories and evening wear."},
+  {name:"Gorpcore",current:65,last:70,dir:"down",cat:"Aesthetic",color:"#22c55e",desc:"Outdoor-inspired fashion plateauing. Salomon still strong."}
+];
+const cats = ["All","Aesthetic","Color","Silhouette","Fabric","Pattern"];
+let activeCat = "All", activeSort = "score", expandedTrend = -1;
+
+function renderTrends() {
+  // Filters
+  document.getElementById('cat-filters').innerHTML = cats.map(c =>
+    `<button onclick="activeCat='${c}';renderTrendCards()" style="padding:6px 12px;border-radius:100px;border:none;cursor:pointer;font-size:11px;font-weight:600;white-space:nowrap;background:${activeCat===c?'#e9456020':'#0a0a0a'};color:${activeCat===c?'#e94560':'#555'};outline:${activeCat===c?'1px solid #e9456044':'1px solid #151515'}">${c}</button>`
+  ).join('');
+  renderTrendCards();
+}
+
+function setSort(s) {
+  activeSort = s;
+  document.getElementById('sort-score').style.background = s==='score'?'#111':'transparent';
+  document.getElementById('sort-score').style.color = s==='score'?'#ccc':'#444';
+  document.getElementById('sort-momentum').style.background = s==='momentum'?'#111':'transparent';
+  document.getElementById('sort-momentum').style.color = s==='momentum'?'#ccc':'#444';
+  renderTrendCards();
+}
+
+function renderTrendCards() {
+  let filtered = trends.filter(t => activeCat === "All" || t.cat === activeCat);
+  if (activeSort === 'score') filtered.sort((a,b) => b.current - a.current);
+  else filtered.sort((a,b) => (b.current-b.last) - (a.current-a.last));
+
+  document.getElementById('trend-cards').innerHTML = filtered.map((t,i) => {
+    const ch = t.current - t.last;
+    const chColor = ch > 0 ? '#22c55e' : ch < 0 ? '#e94560' : '#555';
+    const chText = ch > 0 ? `▲+${ch}` : ch < 0 ? `▼${ch}` : '—0';
+    return `<div class="card" style="margin-bottom:8px;overflow:hidden">
+      <div onclick="toggleTrend(${i})" style="padding:14px;cursor:pointer">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:16px;font-weight:800;color:#282828;min-width:26px">#${i+1}</span>
+            <div><div style="font-size:14px;font-weight:700">${t.name}</div><span style="font-size:9px;color:#555;letter-spacing:1px;text-transform:uppercase">${t.cat}</span></div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:20px;font-weight:800;color:${t.color}">${t.current}</div>
+            <div style="font-size:10px;color:${chColor};font-weight:600">${chText}</div>
+          </div>
+        </div>
+        <div class="trend-bar"><div style="height:100%;width:${t.current}%;background:linear-gradient(90deg,${t.color}77,${t.color});border-radius:100px"></div></div>
+      </div>
+      <div id="trend-expand-${i}" style="display:none;padding:0 14px 14px">
+        <p style="font-size:12px;color:#888;line-height:1.6;margin-bottom:10px">${t.desc}</p>
+        <button onclick="getTrendAI(${i},'${t.name.replace(/'/g,"\\'")}','${t.cat}',${t.current},${t.last},'${t.dir}','${t.desc.replace(/'/g,"\\'")}')" id="trend-ai-btn-${i}" style="width:100%;padding:10px;border-radius:8px;border:1px solid #e9456044;background:#e9456010;color:#e94560;font-size:12px;font-weight:600;cursor:pointer">🤖 Get AI Analysis</button>
+        <div id="trend-ai-${i}"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleTrend(i) {
+  const el = document.getElementById('trend-expand-' + i);
+  if (expandedTrend === i) { el.style.display = 'none'; expandedTrend = -1; }
+  else {
+    if (expandedTrend >= 0) { const prev = document.getElementById('trend-expand-' + expandedTrend); if(prev) prev.style.display = 'none'; }
+    el.style.display = 'block'; expandedTrend = i;
+  }
+}
+
+async function getTrendAI(i, name, cat, cur, last, dir, desc) {
+  const btn = document.getElementById('trend-ai-btn-' + i);
+  const container = document.getElementById('trend-ai-' + i);
+  btn.style.display = 'none';
+  container.innerHTML = '<div style="text-align:center;padding:12px 0"><div class="spinner" style="width:24px;height:24px;border-width:2px"></div><p style="font-size:11px;color:#555">Analyzing...</p></div>';
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:1000,
+        messages:[{role:'user',content:`Fashion trend analyst. Analyze: ${name}|${cat}|Score:${cur}/100|Last month:${last}|Direction:${dir}|${desc}
+Respond ONLY valid JSON:
+{"analysis":"2-3 sentences","prediction":"Next 1-3 months","howToWear":"Specific advice","brandsMoment":["brand1","brand2","brand3"],"investOrSkip":"INVEST or SKIP","reason":"One sentence"}`}]
+      })
+    });
+    const data = await r.json();
+    const ai = JSON.parse(data.content.map(x=>x.text||'').join('').replace(/```json|```/g,'').trim());
+    const iColor = ai.investOrSkip==='INVEST' ? '#22c55e' : '#e94560';
+    const iLabel = ai.investOrSkip==='INVEST' ? '✓ INVEST' : '✕ SKIP';
+    container.innerHTML = `
+      <div style="margin-top:8px">
+        <div style="padding:4px 10px;border-radius:100px;display:inline-block;margin-bottom:10px;background:${iColor}20;color:${iColor};font-size:11px;font-weight:700">${iLabel} — ${ai.reason}</div>
+        ${ai.analysis?`<div style="margin-bottom:8px"><p style="font-size:9px;color:#e94560;letter-spacing:1.5px;margin-bottom:3px;text-transform:uppercase;font-weight:600">Analysis</p><p style="font-size:12px;color:#aaa;line-height:1.5">${ai.analysis}</p></div>`:''}
+        ${ai.prediction?`<div style="margin-bottom:8px"><p style="font-size:9px;color:#e94560;letter-spacing:1.5px;margin-bottom:3px;text-transform:uppercase;font-weight:600">Prediction</p><p style="font-size:12px;color:#aaa;line-height:1.5">${ai.prediction}</p></div>`:''}
+        ${ai.howToWear?`<div style="margin-bottom:8px"><p style="font-size:9px;color:#e94560;letter-spacing:1.5px;margin-bottom:3px;text-transform:uppercase;font-weight:600">How To Wear</p><p style="font-size:12px;color:#aaa;line-height:1.5">${ai.howToWear}</p></div>`:''}
+        ${ai.brandsMoment?`<div class="flex-wrap" style="margin-top:4px">${ai.brandsMoment.map(b=>`<span style="padding:4px 10px;border-radius:100px;background:#111;border:1px solid #1a1a1a;color:#aaa;font-size:10px">${b}</span>`).join('')}</div>`:''}
+      </div>`;
+  } catch(e) {
+    container.innerHTML = '<p style="color:#e94560;font-size:12px;padding:8px 0">Failed to analyze. Try refreshing.</p>';
+    btn.style.display = 'block';
+  }
+}
+
+// Init
+renderStylist();
+</script>
+</body>
+</html>
